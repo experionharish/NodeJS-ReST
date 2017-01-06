@@ -25,6 +25,7 @@ userRouter.route('/')
 	  
 
 	})
+
 	.put(function (req, res) {
 	  	
 	  	fs.readFile('data/data.json', function (err, data) {
@@ -49,14 +50,16 @@ userRouter.route('/')
 		   console.log("PUT request with name");
 		});
 	})
+
 	.post(function(req, res){
 		fs.readFile('data/data.json', function (err, data) {
 		   if (err) {
 		      return console.error(err);
 		   }
 		   data=JSON.parse(data.toString());
-		     
-		   data.push(req.body);
+		   
+		   data=data.concat(req.body);
+		   //data.push(req.body);
 		   
 		   fs.writeFile("data/data.json", JSON.stringify(data));
 
