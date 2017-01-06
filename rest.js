@@ -12,8 +12,8 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-userRouter
-	.get('/', function (req, res) {
+userRouter.route('/')
+	.get(function (req, res){
 	  
 	  	fs.readFile('data/data.json', function (err, data) {
 		   if (err) {
@@ -24,28 +24,8 @@ userRouter
 		});
 	  
 
-	});
-
-userRouter
-	.get('/:name', function (req, res) {
-	  
-	  	fs.readFile('data/data.json', function (err, data) {
-		   if (err) {
-		      return console.error(err);
-		   }
-
-		   data=JSON.parse(data.toString());
-		   var user=_.find(data, { 'name': req.params.name } );
-
-		   res.send(user);
-		   console.log("Get request with name");
-		});
-	  
-
-	});
-
-userRouter
-	.put('/', function (req, res) {
+	})
+	.put(function (req, res) {
 	  	
 	  	fs.readFile('data/data.json', function (err, data) {
 		   if (err) {
@@ -64,13 +44,12 @@ userRouter
 		   		}
 		   		
 		   });
+		   res.send("Record Not Found");
 			  
 		   console.log("PUT request with name");
 		});
-	});
-
-userRouter
-	.post('/', function(req, res){
+	})
+	.post(function(req, res){
 		fs.readFile('data/data.json', function (err, data) {
 		   if (err) {
 		      return console.error(err);
@@ -85,8 +64,25 @@ userRouter
 		});   
 	});
 
-userRouter
-	.delete('/:name', function(req, res){
+
+userRouter.route('/:name')
+	.get(function (req, res) {
+	  
+	  	fs.readFile('data/data.json', function (err, data) {
+		   if (err) {
+		      return console.error(err);
+		   }
+
+		   data=JSON.parse(data.toString());
+		   var user=_.find(data, { 'name': req.params.name }) || "User Not Found";
+
+		   res.send(user);
+		   console.log("Get request with name");
+		});
+	  
+
+	})
+	.delete(function(req, res){
 		fs.readFile('data/data.json', function (err, data) {
 		   	if (err) {
 		    	return console.error(err);
