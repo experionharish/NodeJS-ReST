@@ -45,7 +45,7 @@ userRouter.route('/')
 		   		}
 		   		
 		   });
-		   res.send("Record Not Found");
+		   res.end("Record Not Found");
 			  
 		   console.log("PUT request with name");
 		});
